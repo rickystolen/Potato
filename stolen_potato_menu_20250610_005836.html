@@ -1,0 +1,140 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Stolen Potato</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Arial Black', sans-serif;
+      background: #1a1a1a;
+      color: #f4f4f4;
+    }
+    header {
+      background: #000;
+      padding: 10px;
+      text-align: center;
+      font-size: 24px;
+      color: #ffcc00;
+    }
+    .social {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
+    .social a {
+      color: #ffcc00;
+      margin: 0 5px;
+      text-decoration: none;
+    }
+    main {
+      padding: 20px;
+    }
+    .menu-option {
+      background: #2a2a2a;
+      margin: 10px 0;
+      padding: 15px;
+      border-radius: 8px;
+    }
+    button {
+      margin-top: 10px;
+      padding: 10px;
+      background: #ffcc00;
+      color: #000;
+      font-weight: bold;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .hidden {
+      display: none;
+    }
+    #overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .popup {
+      background: #fff;
+      color: #000;
+      padding: 20px;
+      border-radius: 8px;
+      max-width: 300px;
+    }
+    .popup h3 {
+      margin-top: 0;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    Stolen Potato 🍟
+    <div class="social">
+      <a href="https://instagram.com/stolenpotato" target="_blank">IG</a>
+      <a href="https://facebook.com/stolenpotato" target="_blank">FB</a>
+      <a href="https://tiktok.com/@stolenpotato" target="_blank">TT</a>
+    </div>
+  </header>
+  <main>
+    <div class="menu-option">
+      <h3>🥔 La Robada - $6.000</h3>
+      <p>Papa + Queso + Crema + Mantequilla + Salsas especiales</p>
+    </div>
+    <div class="menu-option">
+      <h3>🔥 La Prófuga - $9.000</h3>
+      <p>Todo lo anterior + Gratinado + 1 topping (Maíz / Plátano / Chip)</p>
+    </div>
+    <div class="menu-option">
+      <h3>💣 La Más Buscada - $14.000</h3>
+      <p>Base completa + Carne a elección + 2 toppings</p>
+      <button onclick="openPopup()">Elegir Ingredientes</button>
+    </div>
+    <div class="menu-option">
+      <input id="telefono" type="tel" placeholder="Tu número para acumular puntos" style="width:100%;padding:10px;margin-top:10px;" />
+      <button onclick="enviarPedido()">Finalizar Pedido por WhatsApp</button>
+    </div>
+  </main>
+
+  <div id="overlay" class="hidden">
+    <div class="popup">
+      <h3>Selecciona tus ingredientes</h3>
+      <label><input type="checkbox" value="Carne Mechada"/> Carne Mechada</label><br/>
+      <label><input type="checkbox" value="Chicharrón"/> Chicharrón</label><br/>
+      <label><input type="checkbox" value="Chorizo"/> Chorizo</label><br/>
+      <label><input type="checkbox" value="Pollo"/> Pollo</label><br/>
+      <label><input type="checkbox" value="Maíz"/> Maíz</label><br/>
+      <label><input type="checkbox" value="Plátano Chip"/> Plátano Chip</label><br/>
+      <button onclick="closePopup()">Aceptar</button>
+    </div>
+  </div>
+
+  <script>
+    function openPopup() {
+      document.getElementById('overlay').classList.remove('hidden');
+    }
+
+    function closePopup() {
+      document.getElementById('overlay').classList.add('hidden');
+    }
+
+    function enviarPedido() {
+      const tel = document.getElementById('telefono').value;
+      if (!tel) {
+        alert("Ingresa tu número para acumular puntos");
+        return;
+      }
+      const ingredientes = Array.from(document.querySelectorAll('.popup input:checked')).map(i => i.value).join(', ');
+      const mensaje = encodeURIComponent("Hola, quiero pedir La Más Buscada con: " + ingredientes + ". Mi número para puntos es: " + tel);
+      window.open("https://wa.me/573028143855?text=" + mensaje, "_blank");
+    }
+  </script>
+</body>
+</html>

@@ -1,138 +1,649 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="no-js">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Stolen Potato</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Stolen Potato - Las mejores papas gourmet de la ciudad">
+  <meta name="theme-color" content="#1a1a1a">
+  <title>Stolen Potato 🍟 | Papas Gourmet</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    body {
+    :root {
+      --primary: #FFC72C;
+      --dark: #1A1A1A;
+      --darker: #121212;
+      --light: #F4F4F4;
+      --gray: #2A2A2A;
+      --success: #4CAF50;
+      --error: #F44336;
+      --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --transition: all 0.3s ease;
+    }
+    
+    * {
       margin: 0;
-      font-family: 'Arial Black', sans-serif;
-      background: #1a1a1a;
-      color: #f4f4f4;
+      padding: 0;
+      box-sizing: border-box;
     }
+    
+    html {
+      scroll-behavior: smooth;
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--dark);
+      color: var(--light);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    
     header {
-      background: #000;
-      padding: 10px;
+      background: var(--darker);
+      padding: 1rem;
       text-align: center;
-      font-size: 24px;
-      color: #ffcc00;
+      position: relative;
+      box-shadow: var(--shadow);
     }
+    
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+    
     .social {
       position: absolute;
-      top: 10px;
-      right: 10px;
+      top: 50%;
+      right: 1rem;
+      transform: translateY(-50%);
+      display: flex;
+      gap: 0.8rem;
     }
+    
     .social a {
-      color: #ffcc00;
-      margin: 0 5px;
-      text-decoration: none;
+      color: var(--primary);
+      font-size: 1.2rem;
+      transition: var(--transition);
     }
+    
+    .social a:hover {
+      transform: translateY(-2px);
+      opacity: 0.8;
+    }
+    
     main {
-      padding: 20px;
+      padding: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+      flex: 1;
     }
-    .menu-option {
-      background: #2a2a2a;
-      margin: 10px 0;
-      padding: 15px;
-      border-radius: 8px;
+    
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-top: 1.5rem;
     }
-    button {
-      margin-top: 10px;
-      padding: 10px;
-      background: #ffcc00;
-      color: #000;
-      font-weight: bold;
+    
+    .menu-card {
+      background: var(--gray);
+      border-radius: 12px;
+      overflow: hidden;
+      transition: var(--transition);
+      border: 2px solid transparent;
+    }
+    
+    .menu-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      border-color: var(--primary);
+    }
+    
+    .menu-header {
+      padding: 1.2rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .menu-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .menu-price {
+      color: var(--primary);
+      font-weight: 700;
+      margin-top: 0.3rem;
+    }
+    
+    .menu-content {
+      padding: 1.2rem;
+    }
+    
+    .menu-description {
+      margin-bottom: 1rem;
+    }
+    
+    .btn {
+      display: inline-block;
+      padding: 0.8rem 1.5rem;
+      background: var(--primary);
+      color: var(--darker);
+      font-weight: 600;
       border: none;
-      border-radius: 6px;
+      border-radius: 8px;
       cursor: pointer;
+      transition: var(--transition);
+      text-align: center;
+      width: 100%;
     }
-    .hidden {
-      display: none;
+    
+    .btn:hover {
+      background: #ffb700;
+      transform: translateY(-2px);
     }
-    #overlay {
+    
+    .btn-secondary {
+      background: transparent;
+      color: var(--primary);
+      border: 2px solid var(--primary);
+    }
+    
+    .btn-secondary:hover {
+      background: rgba(255, 199, 44, 0.1);
+    }
+    
+    .form-group {
+      margin-bottom: 1rem;
+    }
+    
+    .form-control {
+      width: 100%;
+      padding: 0.8rem;
+      border: 2px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--light);
+      font-family: inherit;
+      transition: var(--transition);
+    }
+    
+    .form-control:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+    
+    .overlay {
       position: fixed;
-      top: 0; left: 0;
+      top: 0;
+      left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0,0,0,0.8);
+      background: rgba(0, 0, 0, 0.9);
       display: flex;
       justify-content: center;
       align-items: center;
       z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: var(--transition);
     }
+    
+    .overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    
     .popup {
-      background: #fff;
-      color: #000;
-      padding: 20px;
-      border-radius: 8px;
-      max-width: 300px;
+      background: var(--darker);
+      border-radius: 12px;
+      width: 90%;
+      max-width: 500px;
+      padding: 2rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+      transform: translateY(20px);
+      transition: var(--transition);
     }
-    .popup h3 {
-      margin-top: 0;
+    
+    .overlay.active .popup {
+      transform: translateY(0);
+    }
+    
+    .popup-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+    
+    .popup-title {
+      font-size: 1.5rem;
+      color: var(--primary);
+    }
+    
+    .close-btn {
+      background: none;
+      border: none;
+      color: var(--light);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    
+    .ingredients-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .ingredient-option {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .footer {
+      text-align: center;
+      padding: 1.5rem;
+      background: var(--darker);
+      margin-top: 2rem;
+    }
+    
+    .notification {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      padding: 1rem;
+      background: var(--success);
+      color: white;
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      transform: translateY(100px);
+      opacity: 0;
+      transition: var(--transition);
+      z-index: 1100;
+    }
+    
+    .notification.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    
+    .notification.error {
+      background: var(--error);
+    }
+    
+    @media (max-width: 768px) {
+      .social {
+        position: static;
+        transform: none;
+        justify-content: center;
+        margin-top: 0.5rem;
+      }
+      
+      header {
+        padding-bottom: 1.5rem;
+      }
+      
+      .logo {
+        justify-content: center;
+      }
+      
+      .ingredients-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+    
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    .fade-in {
+      animation: fadeIn 0.5s ease forwards;
+    }
+    
+    /* Accessibility */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border-width: 0;
+    }
+    
+    [aria-hidden="true"] {
+      display: none;
     }
   </style>
 </head>
 <body>
   <header>
-    Stolen Potato 🍟
+    <div class="logo">
+      <span>Stolen Potato</span>
+      <span aria-hidden="true">🍟</span>
+    </div>
     <div class="social">
-      <a href="https://instagram.com/stolenpotato" target="_blank">IG</a>
-      <a href="https://facebook.com/stolenpotato" target="_blank">FB</a>
-      <a href="https://tiktok.com/@stolenpotato" target="_blank">TT</a>
+      <a href="https://instagram.com/stolenpotato" target="_blank" aria-label="Instagram">
+        <i class="fab fa-instagram"></i>
+      </a>
+      <a href="https://facebook.com/stolenpotato" target="_blank" aria-label="Facebook">
+        <i class="fab fa-facebook"></i>
+      </a>
+      <a href="https://tiktok.com/@stolenpotato" target="_blank" aria-label="TikTok">
+        <i class="fab fa-tiktok"></i>
+      </a>
     </div>
   </header>
+  
   <main>
-    <div class="menu-option">
-      <h3>🥔 La Robada - $6.000</h3>
-      <p>Papa + Queso + Crema + Mantequilla + Salsas especiales</p>
+    <h1 class="sr-only">Menú de Stolen Potato</h1>
+    
+    <div class="menu-grid">
+      <article class="menu-card fade-in" style="animation-delay: 0.1s">
+        <div class="menu-header">
+          <h2 class="menu-title">
+            <span aria-hidden="true">🥔</span>
+            <span>La Robada</span>
+          </h2>
+          <div class="menu-price">$6.000</div>
+        </div>
+        <div class="menu-content">
+          <p class="menu-description">Papa + Queso + Crema + Mantequilla + Salsas especiales</p>
+          <button class="btn" onclick="addToCart('La Robada', 6000)">
+            Añadir al pedido
+          </button>
+        </div>
+      </article>
+      
+      <article class="menu-card fade-in" style="animation-delay: 0.2s">
+        <div class="menu-header">
+          <h2 class="menu-title">
+            <span aria-hidden="true">🔥</span>
+            <span>La Prófuga</span>
+          </h2>
+          <div class="menu-price">$9.000</div>
+        </div>
+        <div class="menu-content">
+          <p class="menu-description">Todo lo anterior + Gratinado + 1 topping (Maíz / Plátano / Chip)</p>
+          <button class="btn" onclick="addToCart('La Prófuga', 9000)">
+            Añadir al pedido
+          </button>
+        </div>
+      </article>
+      
+      <article class="menu-card fade-in" style="animation-delay: 0.3s">
+        <div class="menu-header">
+          <h2 class="menu-title">
+            <span aria-hidden="true">💣</span>
+            <span>La Más Buscada</span>
+          </h2>
+          <div class="menu-price">$14.000</div>
+        </div>
+        <div class="menu-content">
+          <p class="menu-description">Base completa + Carne a elección + 2 toppings</p>
+          <button class="btn" onclick="openCustomization('La Más Buscada', 14000)">
+            Personalizar y añadir
+          </button>
+        </div>
+      </article>
     </div>
-    <div class="menu-option">
-      <h3>🔥 La Prófuga - $9.000</h3>
-      <p>Todo lo anterior + Gratinado + 1 topping (Maíz / Plátano / Chip)</p>
-    </div>
-    <div class="menu-option">
-      <h3>💣 La Más Buscada - $14.000</h3>
-      <p>Base completa + Carne a elección + 2 toppings</p>
-      <button onclick="openPopup()">Elegir Ingredientes</button>
-    </div>
-    <div class="menu-option">
-      <input id="telefono" type="tel" placeholder="Tu número para acumular puntos" style="width:100%;padding:10px;margin-top:10px;" />
-      <button onclick="enviarPedido()">Finalizar Pedido por WhatsApp</button>
+    
+    <div class="menu-card fade-in" style="animation-delay: 0.4s; margin-top: 2rem;">
+      <div class="menu-content">
+        <h2 class="menu-title">Finalizar Pedido</h2>
+        <div class="form-group">
+          <label for="nombre">Nombre completo</label>
+          <input type="text" id="nombre" class="form-control" placeholder="¿Cómo te llamas?" required>
+        </div>
+        <div class="form-group">
+          <label for="telefono">Teléfono</label>
+          <input type="tel" id="telefono" class="form-control" placeholder="Tu número para contacto y puntos" required>
+        </div>
+        <div class="form-group">
+          <label for="notas">Notas adicionales</label>
+          <textarea id="notas" class="form-control" rows="3" placeholder="Alergias, instrucciones especiales..."></textarea>
+        </div>
+        <div id="cart-items" style="margin: 1rem 0;"></div>
+        <div id="cart-total" style="font-weight: bold; text-align: right; margin-bottom: 1rem;"></div>
+        <button class="btn" onclick="enviarPedido()">
+          <i class="fas fa-whatsapp"></i> Finalizar Pedido por WhatsApp
+        </button>
+      </div>
     </div>
   </main>
-
-  <div id="overlay" class="hidden">
+  
+  <footer class="footer">
+    <p>© 2023 Stolen Potato. Todos los derechos reservados.</p>
+  </footer>
+  
+  <!-- Customization Popup -->
+  <div class="overlay" id="customization-overlay">
     <div class="popup">
-      <h3>Selecciona tus ingredientes</h3>
-      <label><input type="checkbox" value="Carne Mechada"/> Carne Mechada</label><br/>
-      <label><input type="checkbox" value="Chicharrón"/> Chicharrón</label><br/>
-      <label><input type="checkbox" value="Chorizo"/> Chorizo</label><br/>
-      <label><input type="checkbox" value="Pollo"/> Pollo</label><br/>
-      <label><input type="checkbox" value="Maíz"/> Maíz</label><br/>
-      <label><input type="checkbox" value="Plátano Chip"/> Plátano Chip</label><br/>
-      <button onclick="closePopup()">Aceptar</button>
+      <div class="popup-header">
+        <h3 class="popup-title" id="popup-title">Personalizar</h3>
+        <button class="close-btn" onclick="closeCustomization()">&times;</button>
+      </div>
+      <div class="ingredients-grid" id="ingredients-container">
+        <!-- Filled dynamically by JS -->
+      </div>
+      <button class="btn" onclick="addCustomizedToCart()">Añadir al pedido</button>
     </div>
   </div>
-
+  
+  <!-- Notification -->
+  <div class="notification" id="notification"></div>
+  
   <script>
-    function openPopup() {
-      document.getElementById('overlay').classList.remove('hidden');
+    // Cart functionality
+    let cart = [];
+    let currentCustomization = null;
+    
+    // Initialize the app
+    document.addEventListener('DOMContentLoaded', function() {
+      updateCartDisplay();
+    });
+    
+    function addToCart(name, price) {
+      cart.push({ name, price, ingredients: [] });
+      showNotification(`${name} añadido al pedido`, 'success');
+      updateCartDisplay();
     }
-
-    function closePopup() {
-      document.getElementById('overlay').classList.add('hidden');
+    
+    function openCustomization(name, price) {
+      currentCustomization = { name, price };
+      document.getElementById('popup-title').textContent = `Personalizar ${name}`;
+      
+      // Clear previous ingredients
+      const container = document.getElementById('ingredients-container');
+      container.innerHTML = '';
+      
+      // Add ingredients (could be fetched from API in a real app)
+      const ingredients = [
+        { id: 'carne-mechada', name: 'Carne Mechada', type: 'carne' },
+        { id: 'chicharron', name: 'Chicharrón', type: 'carne' },
+        { id: 'chorizo', name: 'Chorizo', type: 'carne' },
+        { id: 'pollo', name: 'Pollo', type: 'carne' },
+        { id: 'maiz', name: 'Maíz', type: 'topping' },
+        { id: 'platano', name: 'Plátano Chip', type: 'topping' },
+        { id: 'queso-extra', name: 'Queso Extra', type: 'topping' },
+        { id: 'tocineta', name: 'Tocineta', type: 'topping' },
+        { id: 'aguacate', name: 'Aguacate', type: 'topping' },
+        { id: 'cebolla-crispy', name: 'Cebolla Crispy', type: 'topping' }
+      ];
+      
+      ingredients.forEach(ing => {
+        const div = document.createElement('div');
+        div.className = 'ingredient-option';
+        div.innerHTML = `
+          <input type="checkbox" id="${ing.id}" value="${ing.name}">
+          <label for="${ing.id}">${ing.name}</label>
+        `;
+        container.appendChild(div);
+      });
+      
+      document.getElementById('customization-overlay').classList.add('active');
     }
-
-    function enviarPedido() {
-      const tel = document.getElementById('telefono').value;
-      if (!tel) {
-        alert("Ingresa tu número para acumular puntos");
+    
+    function closeCustomization() {
+      document.getElementById('customization-overlay').classList.remove('active');
+    }
+    
+    function addCustomizedToCart() {
+      const selectedIngredients = Array.from(
+        document.querySelectorAll('#ingredients-container input:checked')
+      ).map(el => el.value);
+      
+      if (currentCustomization) {
+        cart.push({
+          name: currentCustomization.name,
+          price: currentCustomization.price,
+          ingredients: selectedIngredients
+        });
+        
+        showNotification(
+          `${currentCustomization.name} personalizada añadida al pedido`, 
+          'success'
+        );
+        
+        currentCustomization = null;
+        closeCustomization();
+        updateCartDisplay();
+      }
+    }
+    
+    function updateCartDisplay() {
+      const container = document.getElementById('cart-items');
+      const totalContainer = document.getElementById('cart-total');
+      
+      if (cart.length === 0) {
+        container.innerHTML = '<p>No hay items en tu pedido aún</p>';
+        totalContainer.textContent = '';
         return;
       }
-      const ingredientes = Array.from(document.querySelectorAll('.popup input:checked')).map(i => i.value).join(', ');
-      const mensaje = encodeURIComponent("Hola, quiero pedir La Más Buscada con: " + ingredientes + ". Mi número para puntos es: " + tel);
-      window.open("https://wa.me/573028143855?text=" + mensaje, "_blank");
+      
+      let html = '<h3>Tu Pedido:</h3><ul>';
+      let total = 0;
+      
+      cart.forEach((item, index) => {
+        total += item.price;
+        html += `
+          <li style="margin-bottom: 0.5rem;">
+            <div style="display: flex; justify-content: space-between;">
+              <span>${item.name}</span>
+              <span>$${item.price.toLocaleString()}</span>
+            </div>
+            ${item.ingredients.length > 0 ? 
+              `<small style="color: #aaa;">(${item.ingredients.join(', ')})</small>` : ''}
+            <button onclick="removeFromCart(${index})" 
+              style="background: none; border: none; color: var(--error); cursor: pointer;">
+              <i class="fas fa-trash"></i>
+            </button>
+          </li>
+        `;
+      });
+      
+      html += '</ul>';
+      container.innerHTML = html;
+      totalContainer.textContent = `Total: $${total.toLocaleString()}`;
+    }
+    
+    function removeFromCart(index) {
+      if (index >= 0 && index < cart.length) {
+        const removedItem = cart.splice(index, 1)[0];
+        showNotification(`${removedItem.name} eliminada del pedido`, 'error');
+        updateCartDisplay();
+      }
+    }
+    
+    function enviarPedido() {
+      const nombre = document.getElementById('nombre').value.trim();
+      const telefono = document.getElementById('telefono').value.trim();
+      const notas = document.getElementById('notas').value.trim();
+      
+      if (!nombre || !telefono) {
+        showNotification('Por favor completa tu nombre y teléfono', 'error');
+        return;
+      }
+      
+      if (cart.length === 0) {
+        showNotification('Agrega al menos un item a tu pedido', 'error');
+        return;
+      }
+      
+      // Format the order message
+      let message = `¡Hola Stolen Potato! Quiero hacer un pedido:\n\n`;
+      message += `*Cliente:* ${nombre}\n`;
+      message += `*Teléfono:* ${telefono}\n\n`;
+      message += `*Pedido:*\n`;
+      
+      let total = 0;
+      cart.forEach(item => {
+        message += `- ${item.name} ($${item.price.toLocaleString()})`;
+        if (item.ingredients.length > 0) {
+          message += ` con: ${item.ingredients.join(', ')}`;
+        }
+        message += `\n`;
+        total += item.price;
+      });
+      
+      message += `\n*Total:* $${total.toLocaleString()}\n`;
+      
+      if (notas) {
+        message += `\n*Notas adicionales:* ${notas}\n`;
+      }
+      
+      message += `\n¡Gracias! Espero mi deliciosa papa pronto 😋`;
+      
+      // Encode for WhatsApp
+      const encodedMessage = encodeURIComponent(message);
+      window.open(`https://wa.me/573028143855?text=${encodedMessage}`, '_blank');
+      
+      // Optional: Clear the cart after sending
+      // cart = [];
+      // updateCartDisplay();
+      // document.getElementById('nombre').value = '';
+      // document.getElementById('telefono').value = '';
+      // document.getElementById('notas').value = '';
+    }
+    
+    function showNotification(message, type = 'success') {
+      const notification = document.getElementById('notification');
+      notification.textContent = message;
+      notification.className = `notification ${type} show`;
+      
+      setTimeout(() => {
+        notification.classList.remove('show');
+      }, 3000);
+    }
+    
+    // Service worker registration for PWA
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').then(registration => {
+          console.log('ServiceWorker registration successful');
+        }).catch(err => {
+          console.log('ServiceWorker registration failed: ', err);
+        });
+      });
     }
   </script>
 </body>

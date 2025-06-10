@@ -1,0 +1,104 @@
+<!DOCTYPE html><html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stolen Club | Suscripción VIP</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Arial Black', sans-serif;
+      background: #1a1a1a;
+      color: #fff;
+      line-height: 1.6;
+      scroll-behavior: smooth;
+    }
+    header {
+      background: #ffcc00;
+      padding: 1rem;
+      text-align: center;
+      color: #000;
+    }
+    .section {
+      padding: 2rem;
+      max-width: 900px;
+      margin: auto;
+    }
+    .highlight {
+      color: #ffcc00;
+    }
+    .btn {
+      background: #ffcc00;
+      border: none;
+      padding: 1rem 2rem;
+      font-size: 1.2rem;
+      cursor: pointer;
+      margin: 1rem 0;
+      transition: 0.3s;
+    }
+    .btn:hover {
+      background: #ffd633;
+    }
+    input, button {
+      padding: 0.8rem;
+      margin: 0.5rem 0;
+      width: 100%;
+      border-radius: 8px;
+      border: none;
+    }
+    .footer {
+      text-align: center;
+      padding: 2rem;
+      background: #111;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>🎉 Únete al <span class="highlight">Stolen Club</span> 🎉</h1>
+    <p>¡12 cajas de papas exclusivas + sorteos, descuentos y más!</p>
+  </header>  <section class="section">
+    <h2>¿Qué incluye tu suscripción anual?</h2>
+    <ul>
+      <li>🍟 12 porciones de papas premium (1 por mes)</li>
+      <li>🧪 Salsas y sabores secretos exclusivos</li>
+      <li>🎁 Sorteos de premios cada 3 meses</li>
+      <li>📦 Cajas coleccionables edición limitada</li>
+      <li>🎫 Código único de miembro + descuentos especiales</li>
+    </ul>
+  </section>  <section class="section">
+    <h2>Regístrate ahora</h2>
+    <p>Llena tus datos y recibe tu código exclusivo por WhatsApp:</p>
+    <form id="registroForm">
+      <input type="text" id="nombre" placeholder="Tu nombre" required />
+      <input type="tel" id="telefono" placeholder="Tu número de WhatsApp" required />
+      <button type="submit" class="btn">Generar código y unirme</button>
+    </form>
+    <p id="codigoRespuesta"></p>
+  </section>  <section class="section">
+    <h2>¿Cómo pagar?</h2>
+    <p>Paga por PSE, Bold o MercadoPago. Después de registrarte, te enviaremos el enlace de pago personalizado.</p>
+    <button class="btn" onclick="window.open('https://wa.me/573028143855?text=Quiero+unirme+al+Stolen+Club','_blank')">
+      📲 Hablar por WhatsApp
+    </button>
+  </section>  <footer class="footer">
+    <p>&copy; 2025 Stolen Potato. Todos los derechos reservados.</p>
+  </footer>  <script>
+    document.getElementById("registroForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const nombre = document.getElementById("nombre").value.trim();
+      const telefono = document.getElementById("telefono").value.trim();
+      if (!nombre || !telefono) return;
+
+      const miembros = JSON.parse(localStorage.getItem("miembrosStolen") || "[]");
+      const nuevoCodigo = "SP-2025-" + String(miembros.length + 1).padStart(4, "0");
+      miembros.push({ nombre, telefono, codigo: nuevoCodigo });
+      localStorage.setItem("miembrosStolen", JSON.stringify(miembros));
+
+      document.getElementById("codigoRespuesta").innerHTML =
+        `✅ <strong>${nombre}</strong>, tu código de miembro es <span class="highlight">${nuevoCodigo}</span>. Nos pondremos en contacto por WhatsApp.`;
+
+      document.getElementById("registroForm").reset();
+    });
+  </script></body>
+</html>

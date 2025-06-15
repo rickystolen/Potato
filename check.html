@@ -72,7 +72,7 @@
     
     .social a {
       color: var(--primary);
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       transition: var(--transition);
     }
     
@@ -159,7 +159,7 @@
     .btn-secondary {
       background: transparent;
       color: var(--primary);
-      border: 2px solid var(--primary);
+      border: 3px solid var(--primary);
     }
     
     .btn-secondary:hover {
@@ -338,11 +338,14 @@
 <body>
   <header>
     <div class="logo">
-      <span>Stolen Potato</span>
+      <span>Stolen Potato 🍟</span>
       <span aria-hidden="true">🍟</span>
     </div>
     <div class="social">
-      <a href="https://instagram.com/stolenpotato" target="_blank" aria-label="Instagram">
+      <section style="text-align:center; margin: rem 0;">
+  <a href="club.html" class="btn-secondary">Únete a Stolen Club</a>
+</section>
+      <a href="https://instagram.com/stolenshop.io" target="_blank" aria-label="Instagram">
         <i class="fab fa-instagram"></i>
       </a>
       <a href="https://facebook.com/stolenpotato" target="_blank" aria-label="Facebook">
@@ -508,27 +511,41 @@
     }
     
     function addCustomizedToCart() {
-      const selectedIngredients = Array.from(
-        document.querySelectorAll('#ingredients-container input:checked')
-      ).map(el => el.value);
-      
-      if (currentCustomization) {
-        cart.push({
-          name: currentCustomization.name,
-          price: currentCustomization.price,
-          ingredients: selectedIngredients
-        });
-        
-        showNotification(
-          `${currentCustomization.name} personalizada añadida al pedido`, 
-          'success'
-        );
-        
-        currentCustomization = null;
-        closeCustomization();
-        updateCartDisplay();
-      }
-    }
+  const selectedIngredients = Array.from(
+    document.querySelectorAll('#ingredients-container input:checked')
+  ).map(el => el.value);
+
+  if (!currentCustomization) return;
+
+  // Precio base y límite de toppings incluidos
+  const BASE_PRICE = 14000;
+  const INCLUDED_TOPPINGS = 3;
+  let finalPrice = BASE_PRICE;
+  let ingredientsNote = selectedIngredients.join(', ');
+
+  // Validar toppings extras
+  if (selectedIngredients.length > INCLUDED_TOPPINGS) {
+    const extraToppings = selectedIngredients.length - INCLUDED_TOPPINGS;
+    const EXTRA_PRICE = 2000; // Ejemplo: $2.000 por topping extra
+    finalPrice += extraToppings * EXTRA_PRICE;
+    ingredientsNote += ` (${extraToppings} toppings extras +$${EXTRA_PRICE * extraToppings})`;
+  }
+
+  // Añadir al carrito
+  cart.push({
+    name: currentCustomization.name,
+    price: finalPrice,
+    ingredients: [ingredientsNote] // Nota clara en el carrito
+  });
+
+  showNotification(
+    `${currentCustomization.name} añadida. ${selectedIngredients.length > INCLUDED_TOPPINGS ? 'Toppings extras aplicados.' : ''}`,
+    'success'
+  );
+  
+  closeCustomization();
+  updateCartDisplay();
+}
     
     function updateCartDisplay() {
       const container = document.getElementById('cart-items');
@@ -646,8 +663,5 @@
       });
     }
   </script>
-  <a href="club.html">
-  <button>únete a Stolen Club</button>
-  </a>
 </body>
 </html>

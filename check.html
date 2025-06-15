@@ -423,7 +423,7 @@
         </div>
         <div class="form-group">
           <label for="notas">Notas adicionales</label>
-          <textarea id="notas" class="form-control" rows="3" placeholder="Alergias, instrucciones especiales..."></textarea>
+          <textarea id="notas" class="form-control" rows="3" placeholder="Dirección y detalles de Domiciio, Alergias, instrucciones especiales..."></textarea>
         </div>
         <div id="cart-items" style="margin: 1rem 0;"></div>
         <div id="cart-total" style="font-weight: bold; text-align: right; margin-bottom: 1rem;"></div>
@@ -613,54 +613,61 @@
     
     function enviarPedido() {
       const nombre = document.getElementById('nombre').value.trim();
-      const telefono = document.getElementById('telefono').value.trim();
-      const notas = document.getElementById('notas').value.trim();
-      
-      if (!nombre || !telefono) {
-        showNotification('Por favor completa tu nombre y teléfono', 'error');
-        return;
-      }
-      
-      if (cart.length === 0) {
-        showNotification('Agrega al menos un item a tu pedido', 'error');
-        return;
-      }
-      
-      // Format the order message
-      let message = `¡Hola Stolen Potato! Quiero hacer un pedido:\n\n`;
-      message += `*Cliente:* ${nombre}\n`;
-      message += `*Teléfono:* ${telefono}\n\n`;
-      message += `*Pedido:*\n`;
-      
-      let total = 0;
-      cart.forEach(item => {
-        message += `- ${item.name} ($${item.price.toLocaleString()})`;
-        if (item.ingredients.length > 0) {
-          message += ` con: ${item.ingredients.join(', ')}`;
-        }
-        message += `\n`;
-        total += item.price;
-      });
-      
-      message += `\n*Total:* $${total.toLocaleString()}\n`;
-      
-      if (notas) {
-        message += `\n*Notas adicionales:* ${notas}\n`;
-      }
-      
-      message += `\n¡Gracias! Espero mi deliciosa papa pronto 😋`;
-      
-      // Encode for WhatsApp
-      const encodedMessage = encodeURIComponent(message);
-      window.open(`https://wa.me/573028143855?text=${encodedMessage}`, '_blank');
-      
-      // Optional: Clear the cart after sending
-      // cart = [];
-      // updateCartDisplay();
-      // document.getElementById('nombre').value = '';
-      // document.getElementById('telefono').value = '';
-      // document.getElementById('notas').value = '';
+  const telefono = document.getElementById('telefono').value.trim();
+  const notas = document.getElementById('notas').value.trim();
+  
+  if (!nombre || !telefono) {
+    showNotification('Por favor completa tu nombre y teléfono', 'error');
+    return;
+  }
+  
+  if (cart.length === 0) {
+    showNotification('Agrega al menos un item a tu pedido', 'error');
+    return;
+  }
+  
+  // Formatear el mensaje para WhatsApp
+  let message = `¡Hola Stolen Potato! Quiero hacer un pedido:\n\n`;
+  message += `*Cliente:* ${nombre}\n`;
+  message += `*Teléfono:* ${telefono}\n\n`;
+  message += `*Pedido:*\n`;
+  
+  let total = 0;
+  cart.forEach(item => {
+    message += `- ${item.name} ($${item.price.toLocaleString()})`;
+    if (item.ingredients.length > 0) {
+      message += ` con: ${item.ingredients.join(', ')}`;
     }
+    message += `\n`;
+    total += item.price;
+  });
+  
+  message += `\n*Total:* $${total.toLocaleString()}\n`;
+  
+  if (notas) {
+    message += `\n*Notas adicionales:* ${notas}\n`;
+  }
+  
+  message += `\n¡Gracias! Espero mi deliciosa papa pronto 😋`;
+  
+  // Redirigir a WhatsApp
+  const encodedMessage = encodeURIComponent(message);
+  const whatsappURL = `https://wa.me/573028143855?text=${encodedMessage}`;
+  window.open(whatsappURL, '_blank');
+  
+  // 1. Reiniciar el formulario y el carrito
+  cart = []; // Vaciar el carrito
+  document.getElementById('nombre').value = '';
+  document.getElementById('telefono').value = '';
+  document.getElementById('notas').value = '';
+  updateCartDisplay(); // Actualizar la visualización del carrito
+  
+  // 2. Mostrar notificación de confirmación
+  showNotification('Pedido enviado a WhatsApp. ¡Te contactaremos pronto! 🍟', 'success');
+  
+  // Opcional: Cerrar popup de personalización si está abierto
+  closeCustomization();
+}
     
     function showNotification(message, type = 'success') {
       const notification = document.getElementById('notification');
@@ -669,7 +676,7 @@
       
       setTimeout(() => {
         notification.classList.remove('show');
-      }, 3000);
+      }, 5000);
     }
     
     // Service worker registration for PWA

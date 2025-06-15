@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Stolen Club</title>
+  <link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #ff2d20;
+      --dark: #0e0e0e;
+      --accent: #ffd700;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Alfa Slab One', cursive;
+      background: linear-gradient(135deg, var(--dark), #1b1b1b);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 3.5rem;
+      margin-bottom: 1.5rem;
+      text-shadow: 3px 3px 0 var(--primary), -1px -1px 0 var(--accent);
+      animation: appear 1.2s ease-out;
+    }
+
+    .button-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+      animation: fadeInUp 2s ease forwards;
+    }
+
+    .btn {
+      background: var(--primary);
+      color: #fff;
+      padding: 15px 30px;
+      border: 3px solid var(--accent);
+      border-radius: 50px;
+      font-size: 1.1rem;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 5px 15px rgba(255, 45, 32, 0.5);
+      animation: bounce 2s infinite;
+    }
+
+    .btn:hover {
+      background: var(--accent);
+      color: var(--dark);
+      transform: scale(1.05);
+      border-color: #fff;
+    }
+
+    @keyframes appear {
+      from { opacity: 0; transform: translateY(-40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(50px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 2.2rem;
+      }
+      .btn {
+        font-size: 0.9rem;
+        padding: 12px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Bienvenido al Stolen Club</h1>
+
+  <div class="button-container">
+    <a href="club.html" class="btn">Únete a Stolen Club</a>
+    <a href="#prueba1" class="btn">Prueba 1</a>
+    <a href="#prueba2" class="btn">Prueba 2</a>
+    <a href="#prueba3" class="btn">Prueba 3</a>
+    <a href="#prueba4" class="btn">Prueba 4</a>
+    <a href="#prueba5" class="btn">Prueba 5</a>
+  </div>
+
+</body>
+</html>

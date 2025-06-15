@@ -435,22 +435,26 @@
   </main>
   
   <footer class="footer">
-    <p>© 2023 Stolen Potato. Todos los derechos reservados.</p>
+    <p>© 2025 Stolen Potato. Todos los derechos reservados.</p>
   </footer>
   
   <!-- Customization Popup -->
   <div class="overlay" id="customization-overlay">
-    <div class="popup">
-      <div class="popup-header">
-        <h3 class="popup-title" id="popup-title">Personalizar</h3>
-        <button class="close-btn" onclick="closeCustomization()">&times;</button>
-      </div>
-      <div class="ingredients-grid" id="ingredients-container">
-        <!-- Filled dynamically by JS -->
-      </div>
-      <button class="btn" onclick="addCustomizedToCart()">Añadir al pedido</button>
+  <div class="popup">
+    <div class="popup-header">
+      <h3 class="popup-title" id="popup-title">Personalizar</h3>
+      <button class="close-btn" onclick="closeCustomization()">&times;</button>
     </div>
+    <!-- Añade esta línea para el contador -->
+    <p id="toppings-counter" style="margin-bottom: 1rem; color: var(--primary);">
+      Toppings incluidos: 0/2 (máx. 2)
+    </p>
+    <div class="ingredients-grid" id="ingredients-container">
+      <!-- Ingredientes dinámicos -->
+    </div>
+    <button class="btn" onclick="addCustomizedToCart()">Añadir al pedido</button>
   </div>
+</div>
   
   <!-- Notification -->
   <div class="notification" id="notification"></div>
@@ -473,38 +477,55 @@
     
     function openCustomization(name, price) {
       currentCustomization = { name, price };
-      document.getElementById('popup-title').textContent = `Personalizar ${name}`;
-      
-      // Clear previous ingredients
-      const container = document.getElementById('ingredients-container');
-      container.innerHTML = '';
-      
-      // Add ingredients (could be fetched from API in a real app)
-      const ingredients = [
-        { id: 'carne-mechada', name: 'Carne Mechada', type: 'carne' },
-        { id: 'chicharron', name: 'Chicharrón', type: 'carne' },
-        { id: 'chorizo', name: 'Chorizo', type: 'carne' },
-        { id: 'pollo', name: 'Pollo', type: 'carne' },
-        { id: 'maiz', name: 'Maíz', type: 'topping' },
-        { id: 'platano', name: 'Plátano Chip', type: 'topping' },
-        { id: 'queso-extra', name: 'Queso Extra', type: 'topping' },
-        { id: 'tocineta', name: 'Tocineta', type: 'topping' },
-        { id: 'aguacate', name: 'Aguacate', type: 'topping' },
-        { id: 'cebolla-crispy', name: 'Cebolla Crispy', type: 'topping' }
-      ];
-      
-      ingredients.forEach(ing => {
-        const div = document.createElement('div');
-        div.className = 'ingredient-option';
-        div.innerHTML = `
-          <input type="checkbox" id="${ing.id}" value="${ing.name}">
-          <label for="${ing.id}">${ing.name}</label>
-        `;
-        container.appendChild(div);
-      });
-      
-      document.getElementById('customization-overlay').classList.add('active');
-    }
+  document.getElementById('popup-title').textContent = `Personalizar ${name}`;
+  const container = document.getElementById('ingredients-container');
+  container.innerHTML = '';
+
+  // Ingredientes (ejemplo)
+  const ingredients = [
+    { id: 'carne-mechada', name: 'Carne Mechada', type: 'topping' },
+    { id: 'carne-molida', name: 'Carne Molida', type: 'topping' },
+    { id: 'pollo', name: 'Pollo', type: 'topping' },
+    { id: 'Chicharrón', name: 'Chicharrón', type: 'topping' },
+    { id: 'Chorizo', name: 'Chorizo', type: 'topping' },
+    { id: 'Relish', name: 'Relish', type: 'topping' },
+    { id: 'Cebolla Caramelizada', name: 'Cebolla Caramelizada', type: 'topping' },
+    { id: 'Pimenton Dulce', name: 'Pimenton Dulce', type: 'topping' },
+        // ... más ingredientes
+  ];
+
+  // Crear checkboxes
+  ingredients.forEach(ing => {
+    const div = document.createElement('div');
+    div.className = 'ingredient-option';
+    div.innerHTML = `
+      <input type="checkbox" id="${ing.id}" value="${ing.name}">
+      <label for="${ing.id}">${ing.name}</label>
+    `;
+    container.appendChild(div);
+  });
+
+  // Contador de toppings seleccionados
+  const counterElement = document.getElementById('toppings-counter');
+  const checkboxes = document.querySelectorAll('#ingredients-container input');
+
+  checkboxes.forEach(checkbox => {
+    checkbox.addEventListener('change', function() {
+      const selectedCount = document.querySelectorAll('#ingredients-container input:checked').length;
+      counterElement.textContent = `Toppings incluidos: ${selectedCount}/2 (máx. 2)`;
+
+      // Cambiar color si supera el límite
+      if (selectedCount > 2) {
+        counterElement.style.color = 'var(--error)';
+        showNotification('¡Toppings extras tendrán un costo adicional!');
+      } else {
+        counterElement.style.color = 'var(--primary)';
+      }
+    });
+  });
+
+  document.getElementById('customization-overlay').classList.add('active');
+}
     
     function closeCustomization() {
       document.getElementById('customization-overlay').classList.remove('active');
@@ -517,16 +538,15 @@
 
   if (!currentCustomization) return;
 
-  // Precio base y límite de toppings incluidos
   const BASE_PRICE = 14000;
-  const INCLUDED_TOPPINGS = 3;
+  const INCLUDED_TOPPINGS = 2;
   let finalPrice = BASE_PRICE;
   let ingredientsNote = selectedIngredients.join(', ');
 
   // Validar toppings extras
   if (selectedIngredients.length > INCLUDED_TOPPINGS) {
     const extraToppings = selectedIngredients.length - INCLUDED_TOPPINGS;
-    const EXTRA_PRICE = 2000; // Ejemplo: $2.000 por topping extra
+    const EXTRA_PRICE = 2000; // $2.000 por topping extra
     finalPrice += extraToppings * EXTRA_PRICE;
     ingredientsNote += ` (${extraToppings} toppings extras +$${EXTRA_PRICE * extraToppings})`;
   }
@@ -535,7 +555,7 @@
   cart.push({
     name: currentCustomization.name,
     price: finalPrice,
-    ingredients: [ingredientsNote] // Nota clara en el carrito
+    ingredients: [ingredientsNote]
   });
 
   showNotification(

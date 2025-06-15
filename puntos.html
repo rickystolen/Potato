@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MiTienda Premium - Fidelidad y Sorteos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4a6bff;
+            --secondary-color: #ff6b6b;
+            --dark-color: #2c3e50;
+            --light-color: #f8f9fa;
+            --success-color: #28a745;
+            --warning-color: #fd7e14;
+            --border-radius: 12px;
+            --box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light-color);
+            color: var(--dark-color);
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary-color);
+            display: flex;
+            align-items: center;
+        }
+
+        .logo i {
+            margin-right: 10px;
+            font-size: 28px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 25px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--dark-color);
+            font-weight: 600;
+            transition: var(--transition);
+            padding: 8px 12px;
+            border-radius: var(--border-radius);
+        }
+
+        nav ul li a:hover {
+            color: var(--primary-color);
+            background-color: rgba(74, 107, 255, 0.1);
+        }
+
+        .main-content {
+            display: flex;
+            flex: 1;
+            gap: 30px;
+            overflow: hidden;
+        }
+
+        .hero-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .hero-section h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            color: var(--dark-color);
+        }
+
+        .hero-section h1 span {
+            color: var(--primary-color);
+        }
+
+        .hero-section p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            font-size: 16px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #3a5bef;
+            transform: translateY(-2px);
+            box-shadow: var(--box-shadow);
+        }
+
+        .btn-secondary {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #ff5252;
+            transform: translateY(-2px);
+            box-shadow: var(--box-shadow);
+        }
+
+        .btn i {
+            margin-right: 8px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--dark-color);
+            transition: var(--transition);
+            text-decoration: none;
+        }
+
+        .social-links a:hover {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .image-section {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .image-placeholder {
+            width: 100%;
+            height: 80%;
+            background-color: #e0e0e0;
+            border-radius: var(--border-radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+            position: relative;
+        }
+
+        .image-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .image-placeholder::before {
+            content: "Imagen de producto o promoción";
+            position: absolute;
+            color: #999;
+            font-size: 18px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: var(--border-radius);
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            position: relative;
+            animation: modalFadeIn 0.3s ease;
+        }
+
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #999;
+            transition: var(--transition);
+        }
+
+        .close-modal:hover {
+            color: var(--secondary-color);
+        }
+
+        .modal h2 {
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(74, 107, 255, 0.2);
+        }
+
+        .lottery-section {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: var(--box-shadow);
+            margin-top: 20px;
+        }
+
+        .lottery-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 15px;
+        }
+
+        .progress-container {
+            width: 100%;
+            background-color: #f1f1f1;
+            border-radius: 10px;
+            margin: 20px 0;
+            height: 20px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: var(--success-color);
+            border-radius: 10px;
+            width: 0%;
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .reward-list {
+            margin-top: 20px;
+        }
+
+        .reward-list h3 {
+            margin-bottom: 10px;
+            color: var(--dark-color);
+        }
+
+        .rewards {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .reward {
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            padding: 10px 15px;
+            font-size: 14px;
+            transition: var(--transition);
+        }
+
+        .reward.active {
+            background-color: var(--warning-color);
+            color: white;
+            border-color: var(--warning-color);
+        }
+
+        .customer-code {
+            font-family: monospace;
+            background-color: var(--dark-color);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px 0;
+            margin-top: auto;
+            color: #777;
+            font-size: 14px;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 992px) {
+            .main-content {
+                flex-direction: column;
+                overflow-y: auto;
+                padding-bottom: 20px;
+            }
+
+            .hero-section, .image-section {
+                flex: none;
+            }
+
+            .hero-section {
+                order: 1;
+            }
+
+            .image-section {
+                order: 2;
+                margin-bottom: 30px;
+            }
+
+            .image-placeholder {
+                height: 300px;
+            }
+
+            body {
+                overflow: auto;
+                height: auto;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            nav ul li {
+                margin: 5px 10px;
+            }
+
+            .hero-section h1 {
+                font-size: 36px;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+
+        /* Animation classes */
+        .shake {
+            animation: shake 0.5s;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+
+        .pulse {
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-crown"></i>
+                <span>MiTienda</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#" class="active">Inicio</a></li>
+                    <li><a href="#lottery">Sorteos</a></li>
+                    <li><a href="#products">Productos</a></li>
+                    <li><a href="#contact">Contacto</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <div class="main-content">
+            <div class="hero-section">
+                <h1>Descubre nuestros <span>exclusivos</span> beneficios por fidelidad</h1>
+                <p>Por cada 10 pedidos completados, participas automáticamente en nuestro sorteo de regalos exclusivos. ¡Registra tus compras y gana increíbles premios!</p>
+                
+                <div class="cta-buttons">
+                    <button class="btn btn-primary" id="registerPurchase">
+                        <i class="fas fa-ticket-alt"></i> Registrar compra
+                    </button>
+                    <button class="btn btn-secondary" id="checkRewards">
+                        <i class="fas fa-gift"></i> Ver premios
+                    </button>
+                </div>
+
+                <div class="lottery-section" id="lottery">
+                    <h2>Tu progreso en el sorteo</h2>
+                    <div class="progress-container">
+                        <div class="progress-bar" id="progressBar">0/10</div>
+                    </div>
+                    
+                    <div class="customer-code-display">
+                        <p>Tu código de cliente:</p>
+                        <div class="customer-code" id="customerCode">CARGANDO...</div>
+                    </div>
+
+                    <div class="reward-list">
+                        <h3>Premios disponibles:</h3>
+                        <div class="rewards" id="rewardsContainer">
+                            <!-- Rewards will be populated by JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="social-links">
+                    <a href="#" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="https://wa.me/1234567890" title="WhatsApp" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+
+            <div class="image-section">
+                <div class="image-placeholder">
+                    <!-- In a real scenario, you would have an actual image here -->
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>&copy; 2023 MiTienda Premium. Todos los derechos reservados.</p>
+        </footer>
+    </div>
+
+    <!-- Register Purchase Modal -->
+    <div class="modal" id="registerModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Registrar nueva compra</h2>
+            <form id="purchaseForm">
+                <div class="form-group">
+                    <label for="customerId">Tu código de cliente</label>
+                    <input type="text" id="customerId" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="purchaseCode">Código de compra</label>
+                    <input type="text" id="purchaseCode" placeholder="Ingresa el código de tu compra" required>
+                </div>
+                <div class="form-group">
+                    <label for="purchaseAmount">Monto de la compra</label>
+                    <input type="number" id="purchaseAmount" placeholder="Ingresa el monto total" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                    <i class="fas fa-save"></i> Registrar compra
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Rewards Modal -->
+    <div class="modal" id="rewardsModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Premios disponibles</h2>
+            <div id="allRewardsList">
+                <!-- All rewards will be listed here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Winner Modal -->
+    <div class="modal" id="winnerModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 style="text-align: center;">¡Felicidades! 🎉</h2>
+            <div style="text-align: center; margin: 30px 0;">
+                <i class="fas fa-gift" style="font-size: 60px; color: var(--secondary-color); margin-bottom: 20px;"></i>
+                <h3 id="wonRewardTitle">Has ganado un premio especial</h3>
+                <p id="wonRewardDesc" style="margin: 15px 0 25px;">Por completar 10 compras en nuestra tienda</p>
+                <div class="customer-code" style="margin: 0 auto; font-size: 18px; padding: 10px 20px;" id="rewardCode">
+                    CODIGO-PREMIO-123
+                </div>
+                <p style="margin-top: 20px; font-size: 14px;">Presenta este código en tu próxima visita para reclamar tu premio</p>
+            </div>
+            <button class="btn btn-secondary" style="width: 100%; margin-top: 20px;" id="shareRewardBtn">
+                <i class="fas fa-share-alt"></i> Compartir premio
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Sample data for rewards
+        const availableRewards = [
+            { id: 1, name: "Descuento 20%", description: "20% de descuento en tu próxima compra", active: false },
+            { id: 2, name: "Producto gratis", description: "Elige un producto de nuestra selección gratis", active: false },
+            { id: 3, name: "Envío gratis", description: "Envío gratuito en tus próximas 3 compras", active: false },
+            { id: 4, name: "Kit premium", description: "Kit de productos premium de regalo", active: false },
+            { id: 5, name: "Descuento 50%", description: "50% de descuento en un producto a elección", active: false }
+        ];
+
+        // DOM Elements
+        const registerPurchaseBtn = document.getElementById('registerPurchase');
+        const checkRewardsBtn = document.getElementById('checkRewards');
+        const registerModal = document.getElementById('registerModal');
+        const rewardsModal = document.getElementById('rewardsModal');
+        const winnerModal = document.getElementById('winnerModal');
+        const closeModalBtns = document.querySelectorAll('.close-modal');
+        const purchaseForm = document.getElementById('purchaseForm');
+        const progressBar = document.getElementById('progressBar');
+        const rewardsContainer = document.getElementById('rewardsContainer');
+        const allRewardsList = document.getElementById('allRewardsList');
+        const customerCodeElement = document.getElementById('customerCode');
+        const customerIdInput = document.getElementById('customerId');
+        const wonRewardTitle = document.getElementById('wonRewardTitle');
+        const wonRewardDesc = document.getElementById('wonRewardDesc');
+        const rewardCodeElement = document.getElementById('rewardCode');
+        const shareRewardBtn = document.getElementById('shareRewardBtn');
+
+        // App state
+        let appState = {
+            customerId: '',
+            purchases: [],
+            completedPurchases: 0,
+            rewards: [...availableRewards]
+        };
+
+        // Initialize the app
+        function initApp() {
+            // Generate or retrieve customer ID (in a real app, this would come from backend/database)
+            const storedCustomerId = localStorage.getItem('customerId');
+            
+            if (storedCustomerId) {
+                appState.customerId = storedCustomerId;
+            } else {
+                appState.customerId = generateCustomerId();
+                localStorage.setItem('customerId', appState.customerId);
+            }
+            
+            // Load purchases from localStorage
+            const storedPurchases = localStorage.getItem('purchases');
+            if (storedPurchases) {
+                appState.purchases = JSON.parse(storedPurchases);
+                appState.completedPurchases = appState.purchases.length;
+            }
+            
+            // Update UI
+            updateCustomerCode();
+            updateProgressBar();
+            renderRewards();
+            renderAllRewards();
+        }
+
+        // Generate a random customer ID
+        function generateCustomerId() {
+            const prefix = 'CLIENTE';
+            const randomNum = Math.floor(1000 + Math.random() * 9000);
+            return `${prefix}-${randomNum}`;
+        }
+
+        // Update customer code display
+        function updateCustomerCode() {
+            customerCodeElement.textContent = appState.customerId;
+            customerIdInput.value = appState.customerId;
+        }
+
+        // Update progress bar based on completed purchases
+        function updateProgressBar() {
+            const progressPercentage = (appState.completedPurchases / 10) * 100;
+            progressBar.style.width = `${progressPercentage}%`;
+            progressBar.textContent = `${appState.completedPurchases}/10`;
+            
+            if (appState.completedPurchases >= 10) {
+                progressBar.classList.add('pulse');
+            } else {
+                progressBar.classList.remove('pulse');
+            }
+        }
+
+        // Render active rewards
+        function renderRewards() {
+            rewardsContainer.innerHTML = '';
+            
+            // Show only active rewards (in a real app, this would come from backend)
+            const activeRewards = appState.rewards.filter(reward => reward.active);
+            
+            if (activeRewards.length > 0) {
+                activeRewards.forEach(reward => {
+                    const rewardElement = document.createElement('div');
+                    rewardElement.className = 'reward active';
+                    rewardElement.textContent = reward.name;
+                    rewardElement.title = reward.description;
+                    rewardsContainer.appendChild(rewardElement);
+                });
+            } else {
+                const noRewards = document.createElement('p');
+                noRewards.textContent = 'Completa 10 compras para participar en el sorteo.';
+                noRewards.style.color = '#666';
+                rewardsContainer.appendChild(noRewards);
+            }
+        }
+
+        // Render all rewards in the modal
+        function renderAllRewards() {
+            allRewardsList.innerHTML = '';
+            
+            appState.rewards.forEach(reward => {
+                const rewardElement = document.createElement('div');
+                rewardElement.className = `reward ${reward.active ? 'active' : ''}`;
+                rewardElement.style.marginBottom = '10px';
+                rewardElement.style.padding = '15px';
+                rewardElement.style.width = '100%';
+                
+                const rewardName = document.createElement('h3');
+                rewardName.textContent = reward.name;
+                rewardName.style.marginBottom = '5px';
+                rewardName.style.color = reward.active ? 'var(--warning-color)' : 'inherit';
+                
+                const rewardDesc = document.createElement('p');
+                rewardDesc.textContent = reward.description;
+                rewardDesc.style.color = '#666';
+                rewardDesc.style.fontSize = '14px';
+                
+                rewardElement.appendChild(rewardName);
+                rewardElement.appendChild(rewardDesc);
+                allRewardsList.appendChild(rewardElement);
+            });
+        }
+
+        // Register a new purchase
+        function registerPurchase(purchaseCode, purchaseAmount) {
+            // In a real app, this would be sent to a backend
+            const newPurchase = {
+                id: Date.now().toString(),
+                code: purchaseCode,
+                amount: parseFloat(purchaseAmount),
+                date: new Date().toISOString()
+            };
+            
+            appState.purchases.push(newPurchase);
+            appState.completedPurchases = appState.purchases.length;
+            
+            // Save to localStorage
+            localStorage.setItem('purchases', JSON.stringify(appState.purchases));
+            
+            // Update UI
+            updateProgressBar();
+            
+            // Check if customer reached 10 purchases
+            if (appState.completedPurchases >= 10) {
+                // Reset counter for next round
+                appState.completedPurchases = 0;
+                appState.purchases = [];
+                localStorage.setItem('purchases', JSON.stringify(appState.purchases));
+                
+                // Award a random reward
+                awardRandomReward();
+            }
+        }
+
+        // Award a random reward to the customer
+        function awardRandomReward() {
+            // Get a random reward
+            const randomIndex = Math.floor(Math.random() * appState.rewards.length);
+            const wonReward = appState.rewards[randomIndex];
+            
+            // In a real app, this would be saved to backend
+            wonReward.active = true;
+            
+            // Generate a reward code
+            const rewardCode = `PREMIO-${Math.floor(1000 + Math.random() * 9000)}`;
+            
+            // Show winner modal
+            showWinnerModal(wonReward, rewardCode);
+            
+            // Update rewards display
+            renderRewards();
+            renderAllRewards();
+        }
+
+        // Show winner modal with reward details
+        function showWinnerModal(reward, rewardCode) {
+            wonRewardTitle.textContent = `¡Has ganado: ${reward.name}!`;
+            wonRewardDesc.textContent = reward.description;
+            rewardCodeElement.textContent = rewardCode;
+            
+            // Set share button data
+            shareRewardBtn.onclick = () => {
+                const shareText = `¡Acabo de ganar "${reward.name}" en MiTienda! Código: ${rewardCode}`;
+                if (navigator.share) {
+                    navigator.share({
+                        title: '¡Gané un premio en MiTienda!',
+                        text: shareText,
+                        url: window.location.href
+                    }).catch(err => {
+                        console.log('Error sharing:', err);
+                    });
+                } else {
+                    // Fallback for browsers that don't support Web Share API
+                    const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(shareText)}`;
+                    window.open(whatsappUrl, '_blank');
+                }
+            };
+            
+            winnerModal.style.display = 'flex';
+        }
+
+        // Modal handling
+        function openModal(modal) {
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(modal) {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Event listeners
+        registerPurchaseBtn.addEventListener('click', () => {
+            openModal(registerModal);
+        });
+
+        checkRewardsBtn.addEventListener('click', () => {
+            openModal(rewardsModal);
+        });
+
+        closeModalBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const modal = this.closest('.modal');
+                closeModal(modal);
+            });
+        });
+
+        // Close modal when clicking outside
+        window.addEventListener('click', (e) => {
+            if (e.target.classList.contains('modal')) {
+                closeModal(e.target);
+            }
+        });
+
+        purchaseForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const purchaseCode = document.getElementById('purchaseCode').value;
+            const purchaseAmount = document.getElementById('purchaseAmount').value;
+            
+            if (!purchaseCode || !purchaseAmount) {
+                purchaseForm.classList.add('shake');
+                setTimeout(() => {
+                    purchaseForm.classList.remove('shake');
+                }, 500);
+                return;
+            }
+            
+            registerPurchase(purchaseCode, purchaseAmount);
+            
+            // Reset form
+            purchaseForm.reset();
+            closeModal(registerModal);
+            
+            // Show success feedback
+            alert('¡Compra registrada con éxito!');
+        });
+
+        // Initialize the app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initApp);
+    </script>
+</body>
+</html>
